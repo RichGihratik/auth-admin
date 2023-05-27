@@ -9,14 +9,14 @@ datasource db {
 
 enum UserStatus {
   BLOCKED
-  ALIVE
+  ACTIVE
 }
 
 model User {
   id        Int        @id @default(autoincrement())
   createdAt DateTime   @default(now())
   lastLogin DateTime   @default(now())
-  status    UserStatus @default(ALIVE)
+  status    UserStatus @default(ACTIVE)
   name      String
   email     String     @unique
   hash      String
