@@ -67,7 +67,7 @@ export class AuthService {
     const { userId: id } = payload;
     const user = await this.db.user.findUnique({ where: { id } });
 
-    if (user)
+    if (!user)
       throw new UnauthorizedException('Token invalid, user was not found!');
 
     this.checkUserStatus(user);
