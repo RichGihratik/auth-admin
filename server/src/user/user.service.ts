@@ -1,11 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Request } from 'express';
 
 import { DatabaseService } from '@/database';
 import { BlockUsersDto, DeleteUsersDto, UnblockUsersDto } from './dto';
+import { JwtExtractorService } from '@/auth';
 
 @Injectable()
 export class UserService {
-  constructor(private db: DatabaseService) {}
+  constructor(private db: DatabaseService, private jwt: JwtExtractorService) {}
 
   async getAll() {
     return await this.db.user.findMany({
@@ -18,6 +20,11 @@ export class UserService {
         status: true,
       },
     });
+  }
+
+  async getCurrent(req: Request) {
+    const { userId } = this.jwt.extractPayload(req);
+    return await this.getUser(userId);
   }
 
   async getUser(id: number) {

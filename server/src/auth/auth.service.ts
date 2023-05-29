@@ -4,7 +4,6 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import { hash, compare } from 'bcrypt';
 import { User } from '@prisma/client';
@@ -12,11 +11,12 @@ import { User } from '@prisma/client';
 import { DatabaseService } from '@/database';
 import { SigninDto, SignupDto } from './dto';
 import { TOKEN_COOKIE_KEY } from './const';
-import { JwtPayload } from './payload.interface';
+import { JwtPayload } from './jwt.interface';
+import { JwtExtractorService } from './jwt-extractor.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private db: DatabaseService, private jwt: JwtService) {}
+  constructor(private db: DatabaseService, private jwt: JwtExtractorService) {}
 
   async signin(res: Response, dto: SigninDto) {
     const { email, password } = dto;
@@ -33,11 +33,11 @@ export class AuthService {
 
     if (!compareResult) throw new BadRequestException('Wrong credentials!');
 
-    await this.setTokenInCookie(user, res);
+    await this.jwt.setTokenInCookie(user, res);
 
     await this.updateLogin(user.id);
 
-    return { id: user.id, name: user.name, email };
+    return 'Signed in successfully';
   }
 
   async signup(res: Response, dto: SignupDto) {
@@ -53,9 +53,9 @@ export class AuthService {
 
     user = await this.db.user.create({ data: { name, email, hash } });
 
-    await this.setTokenInCookie(user, res);
+    await this.jwt.setTokenInCookie(user, res);
 
-    return { id: user.id, name, email };
+    return 'Signed un successfully';
   }
 
   signout(res: Response) {
@@ -78,24 +78,6 @@ export class AuthService {
   private checkUserStatus(user: User | undefined) {
     if (user.status === 'BLOCKED')
       throw new ForbiddenException('Account is blocked!');
-  }
-
-  private async setTokenInCookie(user: User, res: Response) {
-    const payload = {
-      sub: user.id,
-      name: user.name,
-      email: user.email,
-    };
-
-    const token = await this.jwt.signAsync(payload);
-
-    if (!token) throw new ForbiddenException('Could not sign in');
-
-    res.cookie(TOKEN_COOKIE_KEY, token, {
-      httpOnly: true,
-      //secure: true, // TODO: Do not forget to uncomment
-      sameSite: 'strict',
-    });
   }
 
   private async hashPassword(password: string) {

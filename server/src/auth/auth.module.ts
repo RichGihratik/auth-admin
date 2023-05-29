@@ -7,6 +7,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { CONFIG_JWT_KEY } from './const';
 import { JwtStrategy } from './jwt.strategy';
+import { JwtExtractorService } from './jwt-extractor.service';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { JwtStrategy } from './jwt.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [JwtStrategy, AuthService],
+  providers: [JwtStrategy, AuthService, JwtExtractorService],
+  exports: [JwtExtractorService],
 })
 export class AuthModule {}

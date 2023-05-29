@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Patch,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 
@@ -12,35 +13,41 @@ import { JwtGuard } from '@/auth';
 import { UserService } from './user.service';
 import { BlockUsersDto, DeleteUsersDto, UnblockUsersDto } from './dto';
 
-@Controller('users')
+@Controller()
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get()
+  @Get('profile')
+  @UseGuards(JwtGuard)
+  getCurrent(@Req() req) {
+    return this.userService.getCurrent(req);
+  }
+
+  @Get('users')
   @UseGuards(JwtGuard)
   getAll() {
     return this.userService.getAll();
   }
 
-  @Get('/:id')
+  @Get('users/:id')
   @UseGuards(JwtGuard)
   getUser(@Param('id') id: number) {
     return this.userService.getUser(id);
   }
 
-  @Delete('/delete')
+  @Delete('users/delete')
   @UseGuards(JwtGuard)
   deleteUsers(@Body() dto: DeleteUsersDto) {
     return this.userService.deleteUsers(dto);
   }
 
-  @Patch('/block')
+  @Patch('users/block')
   @UseGuards(JwtGuard)
   blockUsers(@Body() dto: BlockUsersDto) {
     return this.userService.blockUsers(dto);
   }
 
-  @Patch('/unblock')
+  @Patch('users/unblock')
   @UseGuards(JwtGuard)
   unblockUsers(@Body() dto: UnblockUsersDto) {
     return this.userService.unblockUsers(dto);
