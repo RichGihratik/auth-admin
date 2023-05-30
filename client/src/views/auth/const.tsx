@@ -1,7 +1,7 @@
 import { Key, Person } from '@mui/icons-material';
 import { RouteObject } from 'react-router-dom';
 
-import { SignupForm } from '@/components';
+import { SignupForm, SigninForm } from '@/components';
 import { RoutePaths } from '@/router';
 
 export const defaultChild = getFullpath('/signin');
@@ -11,7 +11,7 @@ export const tabs = {
     id: 0,
     icon: <Key />,
     label: 'Sign in',
-    element: <></>,
+    element: <SigninForm />,
   },
   [getFullpath('/signup')]: {
     id: 1,
