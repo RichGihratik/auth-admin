@@ -59,7 +59,7 @@ export class JwtExtractorService {
     res.cookie(TOKEN_COOKIE_KEY, token, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'none',
     });
   }
 }
