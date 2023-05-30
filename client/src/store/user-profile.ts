@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+import { RootState } from './store';
 import { get } from '@/api';
 import { User } from '@/types';
 
@@ -17,14 +18,18 @@ const initialState: ProfileState = {
 
 const sliceName = 'userProfile';
 
+type RefreshResult = {
+  error?: string;
+  user?: User;
+};
+
 export const refreshProfile = createAsyncThunk(
   `${sliceName}/refreshProfile`,
-  async () => {
+  async (): Promise<RefreshResult> => {
     const res = await get(path);
-    const state: ProfileState = { loading: false };
-    if (res.ok) state.user = await res.json();
-    else if (res.status !== 401) state.error = (await res.json()).message;
-    return state;
+    if (res.ok) return { user: await res.json() };
+    else if (res.status !== 401) return { error: (await res.json()).message };
+    return {};
   },
 );
 
@@ -38,12 +43,15 @@ const userProfile = createSlice({
         state.loading = true;
       })
       .addCase(refreshProfile.fulfilled, (state, action) => {
-        state = action.payload;
+        state.loading = false;
+        state.error = action.payload.error;
+        state.user = action.payload.user;
       })
   },
 });
 
-export const selectProfile = (state: ProfileState) => state.user;
-export const selectLoading = (state: ProfileState) => state.loading;
+export const selectProfile = (state: RootState) => state.profile.user;
+export const selectLoading = (state: RootState) => state.profile.loading;
+export const selectProfileError = (state: RootState) => state.profile.error;
 
 export default userProfile.reducer;
