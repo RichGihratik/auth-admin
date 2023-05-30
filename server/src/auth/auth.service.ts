@@ -10,7 +10,6 @@ import { User } from '@prisma/client';
 
 import { DatabaseService } from '@/database';
 import { SigninDto, SignupDto } from './dto';
-import { TOKEN_COOKIE_KEY } from './const';
 import { JwtPayload } from './jwt.interface';
 import { JwtExtractorService } from './jwt-extractor.service';
 
@@ -59,7 +58,7 @@ export class AuthService {
   }
 
   signout(res: Response) {
-    res.clearCookie(TOKEN_COOKIE_KEY);
+    this.jwt.clearCookie(res);
     return 'Logged out sucessfully';
   }
 

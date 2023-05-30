@@ -42,6 +42,14 @@ export class JwtExtractorService {
     };
   }
 
+  clearCookie(res: Response) {
+    res.clearCookie(TOKEN_COOKIE_KEY, {
+      sameSite: 'none',
+      httpOnly: true,
+      secure: true,
+    });
+  }
+
   async setTokenInCookie(user: User, res: Response) {
     const payload: RawJwt = {
       sub: user.id,
