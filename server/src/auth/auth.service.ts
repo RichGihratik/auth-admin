@@ -24,13 +24,14 @@ export class AuthService {
       where: { email },
     });
 
-    if (!user) throw new BadRequestException('Wrong credentials!');
+    if (!user) throw new BadRequestException('Incorrect email and/or password');
 
     this.checkUserStatus(user);
 
     const compareResult = await this.comparePasswords(password, user.hash);
 
-    if (!compareResult) throw new BadRequestException('Wrong credentials!');
+    if (!compareResult)
+      throw new BadRequestException('Incorrect email and/or password');
 
     await this.jwt.setTokenInCookie(user, res);
 
@@ -46,7 +47,8 @@ export class AuthService {
       where: { email },
     });
 
-    if (user) throw new BadRequestException('Email already exists!');
+    if (user)
+      throw new BadRequestException('User with this email already exists');
 
     const hash = await this.hashPassword(password);
 
@@ -66,8 +68,7 @@ export class AuthService {
     const { userId: id } = payload;
     const user = await this.db.user.findUnique({ where: { id } });
 
-    if (!user)
-      throw new UnauthorizedException('Token invalid, user was not found!');
+    if (!user) throw new UnauthorizedException('Invalid token');
 
     this.checkUserStatus(user);
 
@@ -76,7 +77,7 @@ export class AuthService {
 
   private checkUserStatus(user: User | undefined) {
     if (user.status === 'BLOCKED')
-      throw new ForbiddenException('Account is blocked!');
+      throw new ForbiddenException('Account is blocked');
   }
 
   private async hashPassword(password: string) {

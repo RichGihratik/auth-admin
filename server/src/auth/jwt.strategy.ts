@@ -24,7 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
   async validate(payload: unknown): Promise<JwtPayload> {
     if (!isValidPayload(payload))
-      throw new UnauthorizedException('Token was invalid!');
+      throw new UnauthorizedException('Invalid token');
     const parsed = this.jwt.extractPayloadFromRaw(payload);
     await this.auth.checkPayload(parsed);
     return parsed;
