@@ -11,7 +11,7 @@ export function ProfileBackdrop() {
   })
 
   return ( 
-    <Backdrop open={debounce && loading} className="text-zinc-50">
+    <Backdrop sx={{ zIndex: 1000 }} open={debounce && loading} className="text-zinc-50">
       <CircularProgress color="inherit" />
     </Backdrop>
   ) 
