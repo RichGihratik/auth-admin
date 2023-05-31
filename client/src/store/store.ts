@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { profileReducer, refreshProfile } from './profile';
 import { usersReducer } from './users';
 
-async function setupStore() {
+function setupStore() {
   const result = configureStore({
     reducer: {
       users: usersReducer, 
@@ -12,10 +12,10 @@ async function setupStore() {
 
   result.dispatch(refreshProfile());
 
-  return result
+  return result;
 }
 
-export const store = await setupStore();
+export const store = setupStore();
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
