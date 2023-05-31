@@ -40,7 +40,7 @@ export function UsersTable() {
   }, [users, loading, firstFetch, dispatch]);
 
   return (
-    <div className="flex flex-col justify-center h-100 w-100 rounded-2xl">
+    <div className="flex flex-col justify-center h-100 w-100">
       <>
         <UsersSnackBar isError={status.isError} message={status.message} />
         <DataTable
