@@ -1,12 +1,12 @@
 export { useAppDispatch, useAppSelector } from './hooks';
 export { store } from './store';
 export {
-  selectLoading,
+  selectProfileLoading,
   selectProfile,
   refreshProfile,
   signin,
   signout,
   signup,
-  isAuthDispatchSuccess,
-  isAuthDispatchFailure
-} from './user-profile';
+  isAuthSuccess,
+  isAuthFailure
+} from './profile';

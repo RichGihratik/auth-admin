@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import profileReducer from './user-profile';
-import { refreshProfile, signout } from './user-profile';
+import { profileReducer, refreshProfile, signout } from './profile';
 
 async function setupStore() {
   const result = configureStore({

@@ -9,8 +9,8 @@ import { RoutePaths } from '@/router';
 import {
   useAppDispatch,
   signup,
-  isAuthDispatchSuccess,
-  isAuthDispatchFailure
+  isAuthSuccess,
+  isAuthFailure
 } from '@/store';
 
 export function SignupForm() {
@@ -27,9 +27,9 @@ export function SignupForm() {
       setError(undefined);
       const { payload } = await dispatch(signup({ email, name, password }));
 
-      if (isAuthDispatchSuccess(payload)) {
+      if (isAuthSuccess(payload)) {
         navigate(RoutePaths.AdminPanel);
-      } else if (isAuthDispatchFailure(payload)) {
+      } else if (isAuthFailure(payload)) {
         setError(payload.error);
       } else {
         setError('Unknown error');

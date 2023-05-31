@@ -8,9 +8,9 @@ import ClosableAlert from './ClosableAlert';
 import { RoutePaths } from '@/router';
 import {
   useAppDispatch,
-  isAuthDispatchFailure,
+  isAuthFailure,
   signin,
-  isAuthDispatchSuccess,
+  isAuthSuccess,
 } from '@/store';
 
 export function SigninForm() {
@@ -27,9 +27,9 @@ export function SigninForm() {
       setError(undefined);
       const { payload } = await dispatch(signin({ email, password }));
 
-      if (isAuthDispatchSuccess(payload)) {
+      if (isAuthSuccess(payload)) {
         navigate(RoutePaths.AdminPanel);
-      } else if (isAuthDispatchFailure(payload)) {
+      } else if (isAuthFailure(payload)) {
         setError(payload.error);
       } else {
         setError('Unknown error');

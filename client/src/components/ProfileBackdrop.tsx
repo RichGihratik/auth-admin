@@ -1,9 +1,9 @@
 import { Backdrop, CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useAppSelector, selectLoading } from '@/store';
+import { useAppSelector, selectProfileLoading } from '@/store';
 
 export function ProfileBackdrop() {
-  const loading = useAppSelector(selectLoading);
+  const loading = useAppSelector(selectProfileLoading);
   const [debounce, setDebounce] = useState(false);
   
   useEffect(() => {
