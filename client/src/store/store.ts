@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { profileReducer, refreshProfile, signout } from './profile';
+import { profileReducer, refreshProfile } from './profile';
+import { usersReducer } from './users';
 
 async function setupStore() {
   const result = configureStore({
     reducer: {
+      users: usersReducer, 
       profile: profileReducer
     } 
   });
-
-  //await result.dispatch(signout());
 
   result.dispatch(refreshProfile());
 

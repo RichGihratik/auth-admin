@@ -23,6 +23,6 @@ export function createAsyncUpdater<T extends AsyncState>(updater: Update<T>) {
   }
 }
 
-export function isRequestFailed(item: unknown): item is HasErrors {
+export function isRequestFailed(item: unknown): item is Required<HasErrors> {
   return typeof item === 'object' && item !== null && 'error' in item;
 }
