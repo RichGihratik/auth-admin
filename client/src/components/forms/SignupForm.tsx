@@ -10,7 +10,7 @@ import {
   useAppDispatch,
   signup,
   isAuthSuccess,
-  isAuthFailure
+  isRequestFailed
 } from '@/store';
 
 export function SignupForm() {
@@ -29,7 +29,7 @@ export function SignupForm() {
 
       if (isAuthSuccess(payload)) {
         navigate(RoutePaths.AdminPanel);
-      } else if (isAuthFailure(payload)) {
+      } else if (isRequestFailed(payload)) {
         setError(payload.error);
       } else {
         setError('Unknown error');

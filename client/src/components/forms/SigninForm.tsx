@@ -8,7 +8,7 @@ import ClosableAlert from './ClosableAlert';
 import { RoutePaths } from '@/router';
 import {
   useAppDispatch,
-  isAuthFailure,
+  isRequestFailed,
   signin,
   isAuthSuccess,
 } from '@/store';
@@ -29,7 +29,7 @@ export function SigninForm() {
 
       if (isAuthSuccess(payload)) {
         navigate(RoutePaths.AdminPanel);
-      } else if (isAuthFailure(payload)) {
+      } else if (isRequestFailed(payload)) {
         setError(payload.error);
       } else {
         setError('Unknown error');

@@ -4,9 +4,11 @@ export interface AsyncState {
   loading: boolean;
 }
 
-export type ThunkResult<T extends AsyncState> = Omit<T, 'loading'> & {
+type HasErrors = {
   error?: string;
 }
+
+export type ThunkResult<T extends AsyncState> = Omit<T, 'loading'> & HasErrors;
 
 export function setToLoading<T extends AsyncState>(state: T) { 
   state.loading = true;
@@ -19,4 +21,8 @@ export function createAsyncUpdater<T extends AsyncState>(updater: Update<T>) {
     state.loading = false;
     updater(state, payload)
   }
+}
+
+export function isRequestFailed(item: unknown): item is HasErrors {
+  return typeof item === 'object' && item !== null && 'error' in item;
 }

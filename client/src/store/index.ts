@@ -7,6 +7,6 @@ export {
   signin,
   signout,
   signup,
-  isAuthSuccess,
-  isAuthFailure
+  isAuthSuccess
 } from './profile';
+export { isRequestFailed } from './common';
