@@ -44,6 +44,7 @@ export function UsersTable() {
       <>
         <UsersSnackBar isError={status.isError} message={status.message} />
         <DataTable
+          className="bg-transparent"
           noContextMenu={loading || users === undefined}
           fixedHeader
           title={

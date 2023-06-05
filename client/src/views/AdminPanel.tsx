@@ -46,7 +46,7 @@ export function AdminPanel() {
           </Button>
         </Toolbar>
         <Divider />
-        <div className="flex-1 p-10 h-100 w-100">
+        <div className="flex-1 h-100 w-100">
           <UsersTable />
         </div>
       </Block>
